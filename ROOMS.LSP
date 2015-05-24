@@ -1,0 +1,246 @@
+~
+~  ROOMS
+~
+(PRINT 'ROOMS)
+
+(PACKAGE ROOMS
+    (PUT OBDESCR WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT LONG-DESCR WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT SHORT-DESCR WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT N WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT NE WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT E WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT SE WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT S WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT SW WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT W WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT NW WEAPNRM OBSERM LOBBY ELEVATOR)
+    (PUT CONTAINS TOOLBOX1 WEAPNRM OBSERM LOBBY ELEVATOR)
+    (SETQ FIRSTROOM WELCOMEMSG))
+
+(PUT 'WEAPNRM
+     '"An empty room"
+     'OBDESCR)
+
+(PUT 'OBSERM
+     '"An observation room"
+     'OBDESCR)
+
+(PUT 'LOBBY
+     '"A lobby"
+     'OBDESCR)
+
+(PUT 'ELEVATOR
+     '"An elevator"
+     'OBDESCR)
+
+(PUT 'WEAPNRM
+     '"You are in an empty room except for a closet.  To the east
+is a room and to the southeast is a dimly lit hall."
+     'LONG-DESCR)
+
+(PUT 'OBSERM
+     '"You are in an observation room.  A clear dome reveals an 
+astounding view of the universe.  To the southwest is a dimly
+lit hall and to the west is another room."
+     'LONG-DESCR)
+
+(PUT 'LOBBY
+     '"You are in a dimly lit lobby.  Emergency red running lights
+bath the room in an otherworldly glow.  Halls  lead to  the
+northwest and northeast.  A button on the south wall reads
+'CALL' and next to the button is an elevator door"
+     'LONG-DESCR)
+
+(PUT 'ELEVATOR
+     '"You are in a turbo elevator.  A row of lights above you indicate
+your current location.  A tasteless art-deco lithograph covers the
+wall and a symphonic version of 'Let It Be' comes from an invisible
+speaker."
+     'LONG-DESCR)
+
+(PUT 'WEAPNRM
+     '"The empty room."
+     'SHORT-DESCR)
+
+(PUT 'OBSERM
+     '"You are in the observation room."
+     'SHORT-DESCR)
+
+(PUT 'LOBBY
+     '"This is the elevator lobby."
+     'SHORT-DESCR)
+
+(PUT 'ELEVATOR
+     '"You are in the tasteless turbo elevator"
+     'SHORT-DESCR)
+
+(PUT 'WEAPNRM
+     'NIL
+     'N)
+
+(PUT 'OBSERM
+     'NIL
+     'N)
+
+(PUT 'LOBBY
+     'NIL
+     'N)
+
+(PUT 'ELEVATOR
+     'LOBBY
+     'N)
+
+(PUT 'WEAPNRM
+     'NIL
+     'NE)
+
+(PUT 'OBSERM
+     'NIL
+     'NE)
+
+(PUT 'LOBBY
+     'OBSERM
+     'NE)
+
+(PUT 'ELEVATOR
+     'NIL
+     'NE)
+
+(PUT 'WEAPNRM
+     'OBSERM
+     'E)
+
+(PUT 'OBSERM
+     'NIL
+     'E)
+
+(PUT 'LOBBY
+     'NIL
+     'E)
+
+(PUT 'ELEVATOR
+     'NIL
+     'E)
+
+(PUT 'WEAPNRM
+     'LOBBY
+     'SE)
+
+(PUT 'OBSERM
+     'NIL
+     'SE)
+
+(PUT 'LOBBY
+     'NIL
+     'SE)
+
+(PUT 'ELEVATOR
+     'NIL
+     'SE)
+
+(PUT 'WEAPNRM
+     'NIL
+     'S)
+
+(PUT 'OBSERM
+     'NIL
+     'S)
+
+(PUT 'LOBBY
+     'ELEVATOR
+     'S)
+
+(PUT 'ELEVATOR
+     'NIL
+     'S)
+
+(PUT 'WEAPNRM
+     'NIL
+     'SW)
+
+(PUT 'OBSERM
+     'LOBBY
+     'SW)
+
+(PUT 'LOBBY
+     'NIL
+     'SW)
+
+(PUT 'ELEVATOR
+     'NIL
+     'SW)
+
+(PUT 'WEAPNRM
+     'NIL
+     'W)
+
+(PUT 'OBSERM
+     'WEAPNRM
+     'W)
+
+(PUT 'LOBBY
+     'NIL
+     'W)
+
+(PUT 'ELEVATOR
+     'NIL
+     'W)
+
+(PUT 'WEAPNRM
+     'NIL
+     'NW)
+
+(PUT 'OBSERM
+     'NIL
+     'NW)
+
+(PUT 'LOBBY
+     'WEAPNRM
+     'NW)
+
+(PUT 'ELEVATOR
+     'NIL
+     'NW)
+
+(PUT 'TOOLBOX1
+     '(CAN1 CROWBAR1 BATTERY1)
+     'CONTAINS)
+
+(PUT 'WEAPNRM
+     '(CLOSET1)
+     'CONTAINS)
+
+(PUT 'OBSERM
+     '(TOOLBOX1)
+     'CONTAINS)
+
+(PUT 'LOBBY
+     '(BUTTON1)
+     'CONTAINS)
+
+(PUT 'ELEVATOR
+     'NIL
+     'CONTAINS)
+
+(SETQ FIRSTROOM
+    'ELEVATOR)
+
+(SETQ WELCOMEMSG
+    '"
+*** Welcome to Microworld ***
+
+Microworld is a fantasy world for you to explore.  With enough guile,
+low cunning and luck you may survive.  To explore Microworld simply
+tell me what to do.  For example: PICK UP THE APPLE or GO NORTH.
+To find out what you have try INVENTORY or TAKE INVENTORY.
+
+               Have Fun and Be Careful!
+
+
+                                                 Sincerly,
+
+
+                                                 The Implementors
+")
+

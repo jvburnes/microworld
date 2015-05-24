@@ -1,0 +1,46 @@
+~
+~  OBJECTS
+~
+(PRINT 'OBJECTS)
+
+(PACKAGE OBJECTS
+    (PUT SIZE S1 S2 S3 S4 S5)
+    (PUT COLOR S1 S2 S3)
+    (PUT LENGTH S1))
+
+(PUT 'S1
+     'LARGE
+     'SIZE)
+
+(PUT 'S2
+     'LARGE
+     'SIZE)
+
+(PUT 'S3
+     'LARGE
+     'SIZE)
+
+(PUT 'S4
+     'SMALL
+     'SIZE)
+
+(PUT 'S5
+     'SMALL
+     'SIZE)
+
+(PUT 'S1
+     'BLUE
+     'COLOR)
+
+(PUT 'S2
+     'RED
+     'COLOR)
+
+(PUT 'S3
+     'RED
+     'COLOR)
+
+(PUT 'S1
+     '7
+     'LENGTH)
+

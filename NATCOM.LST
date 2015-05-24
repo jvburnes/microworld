@@ -1,0 +1,163 @@
+~
+~  NATCOM
+~
+(PRINT 'NATCOM)
+
+(PACKAGE NATCOM
+    (DEF PARSE-WORD PARSE-NOUN-GROUP PARSE-COMMAND))
+
+(DEF 'PARSE-WORD
+    '[LAMBDA (PARENT-NODE FEATURES)
+         [PROG (THIS-NODE HOLD)
+             (SETQ HOLD REMAINING-WORDS)
+             (SETQ CURRENT-WORD
+                 (CAR REMAINING-WORDS))
+             (SETQ THIS-NODE
+                 (GENNAME 'PARSE-WORD))
+          S1
+             (COND
+                 [T
+                   (SETQ THIS-NODE CURRENT-WORD)
+                   (SETQ REMAINING-WORDS
+                       (CDR REMAINING-WORDS))
+                   (COND
+                       [REMAINING-WORDS
+                         (SETQ CURRENT-WORD
+                             (CAR REMAINING-WORDS))]
+                       [T
+                         (SETQ CURRENT-WORD NIL)])
+                   (GO WIN)]
+                 [T
+                   (GO LOSE)])
+          WIN
+             (COND
+                 [(NOT (TESTF THIS-NODE FEATURES))
+                   (GO LOSE)])
+             (ATTACH THIS-NODE PARENT-NODE)
+             (SETQ LAST-PARSED THIS-NODE)
+             (RETURN THIS-NODE)
+          LOSE
+             (SETQ REMAINING-WORDS HOLD)
+             (SETQ CURRENT-WORD
+                 (CAR REMAINING-WORDS))
+             (RETURN NIL)]])
+
+(DEF 'PARSE-NOUN-GROUP
+    '[LAMBDA (PARENT-NODE FEATURES)
+         [PROG (THIS-NODE HOLD)
+             (SETQ HOLD REMAINING-WORDS)
+             (SETQ CURRENT-WORD
+                 (CAR REMAINING-WORDS))
+             (SETQ THIS-NODE
+                 (GENNAME 'PARSE-NOUN-GROUP))
+          S1
+             (COND
+                 [(PARSE-WORD THIS-NODE
+                      'DETERMINER)
+                   (SETR 'NUMBER
+                       (SELCT '(SINGULAR PLURAL)
+                           (GETF LAST-PARSED)))
+                   (SETR 'DETERMINER
+                       (SELCT '(DEFINITE INDEFINITE)
+                           (GETF LAST-PARSED)))
+                   (GO S2)]
+                 [T
+                   (GO LOSE)])
+          S2
+             (COND
+                 [(PARSE-WORD THIS-NODE
+                      'ADJECTIVE)
+                   (ADDR 'ADJECTIVES LAST-PARSED)
+                   (GO S2)]
+                 [(PARSE-WORD THIS-NODE
+                      'NOUN)
+                   (SETR 'NUMBER
+                       (SELCT '(SINGULAR PLURAL)
+                           (GETF LAST-PARSED)))
+                   (SETR 'NOUN LAST-PARSED)
+                   (GO WIN)]
+                 [T
+                   (GO LOSE)])
+          WIN
+             (COND
+                 [(NOT (TESTF THIS-NODE FEATURES))
+                   (GO LOSE)])
+             (ATTACH THIS-NODE PARENT-NODE)
+             (SETQ LAST-PARSED THIS-NODE)
+             (RETURN THIS-NODE)
+          LOSE
+             (SETQ REMAINING-WORDS HOLD)
+             (SETQ CURRENT-WORD
+                 (CAR REMAINING-WORDS))
+             (RETURN NIL)]])
+
+(DEF 'PARSE-COMMAND
+    '[LAMBDA (PARENT-NODE FEATURES)
+         [PROG (THIS-NODE HOLD)
+             (SETQ HOLD REMAINING-WORDS)
+             (SETQ CURRENT-WORD
+                 (CAR REMAINING-WORDS))
+             (SETQ THIS-NODE
+                 (GENNAME 'PARSE-COMMAND))
+          S1
+             (COND
+                 [(PARSE-WORD THIS-NODE
+                      'VERB)
+                   (SETR 'COMMAND LAST-PARSED)
+                   (GO S2)]
+                 [T
+                   (GO LOSE)])
+          S2
+             (COND
+                 [(NULL REMAINING-WORDS)
+                   (SETR 'IMP-OP
+                       'IMPLICIT)
+                   (GO WIN)]
+                 [(PARSE-NOUN-GROUP THIS-NODE NIL)
+                   (SETR 'NOUN-GROUP1 LAST-PARSED)
+                   (GO S3)]
+                 [T
+                   (GO LOSE)])
+          S3
+             (COND
+                 [(NULL REMAINING-WORDS)
+                   (SETR 'IMP-OP
+                       'UNARY)
+                   (GO WIN)]
+                 [(PARSE-WORD THIS-NODE
+                      'PREPOSITION)
+                   (SETR 'IMP-OP
+                       'BINARY)
+                   (SETR 'PREPOSITION LAST-PARSED)
+                   (GO S4)]
+                 [(PARSE-NOUN-GROUP THIS-NODE NIL)
+                   (SETR 'NOUN-GROUP2
+                       (GETR 'NOUN-GROUP1))
+                   (SETR 'NOUN-GROUP1 LAST-PARSED)
+                   (SETR 'PREPOSITION
+                       'TO)
+                   (SETR 'IMP-OP
+                       'BINARY)
+                   (GO WIN)]
+                 [T
+                   (GO LOSE)])
+          S4
+             (COND
+                 [(PARSE-NOUN-GROUP THIS-NODE NIL)
+                   (SETR 'NOUN-GROUP2 LAST-PARSED)
+                   (GO WIN)]
+                 [T
+                   (GO LOSE)])
+          WIN
+             (COND
+                 [(NOT (TESTF THIS-NODE FEATURES))
+                   (GO LOSE)])
+             (ATTACH THIS-NODE PARENT-NODE)
+             (SETQ LAST-PARSED THIS-NODE)
+             (RETURN THIS-NODE)
+          LOSE
+             (SETQ REMAINING-WORDS HOLD)
+             (SETQ CURRENT-WORD
+                 (CAR REMAINING-WORDS))
+             (RETURN NIL)]])
+
